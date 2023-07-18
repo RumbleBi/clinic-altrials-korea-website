@@ -1,5 +1,4 @@
-import { ChangeEvent } from "react";
-import { SickList } from "../../types/types";
+import { SearchProps } from "../../types/types";
 import {
   Input,
   SearchWrap,
@@ -7,30 +6,15 @@ import {
   Result,
   NoResult,
   SubTitle,
-  HighlightedText,
+  ErrorMessage,
+  LoadingMessage,
 } from "./styled";
 
-type SearchProps = {
-  userInput: string;
-  sickList: SickList[];
-  handleInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
-};
-
-const Search = ({ userInput, sickList, handleInputChange }: SearchProps) => {
-  const highlightText = (text: string, match: string) => {
-    const parts = text.split(new RegExp(`(${match})`, "gi"));
-    return (
-      <>
-        {parts.map((part, idx) =>
-          part.toLowerCase() === match.toLowerCase() ? (
-            <HighlightedText key={idx}>{part}</HighlightedText>
-          ) : (
-            <span key={idx}>{part}</span>
-          )
-        )}
-      </>
-    );
-  };
+import { highlightText } from "../../utils/highlightText";
+const Search = ({ userInput, sickList, handleInputChange, isLoading, error }: SearchProps) => {
+  if (error) {
+    return <ErrorMessage>통신에 에러가 발생하였습니다. 나중에 다시 시도해 주세요.</ErrorMessage>;
+  }
 
   return (
     <SearchWrap>
@@ -42,6 +26,7 @@ const Search = ({ userInput, sickList, handleInputChange }: SearchProps) => {
       />
       {userInput && (
         <ResultWrap>
+          {isLoading && <LoadingMessage>로딩중..</LoadingMessage>}
           {sickList.length ? (
             <>
               <SubTitle>추천 검색어</SubTitle>

@@ -1,36 +1,25 @@
-import { ChangeEvent, useEffect, useState } from "react";
-import { Wrap, Title } from "./styled";
-import { SickList } from "../../types/types";
 import Search from "../../components/Search";
-import { getSickByName } from "../../api/getSicks";
+
+import { Wrap, Title } from "./styled";
+import { useDebounce } from "../../hooks/useDebounce";
+import { useSearchSick } from "../../hooks/useSearchSick";
+import { useUserInput } from "../../hooks/useUserInput";
 
 export default function MainPage() {
-  const [sickList, setSickList] = useState<SickList[] | []>([]);
-  const [userInput, setUserInput] = useState("");
-
-  useEffect(() => {
-    if (userInput.length >= 1) {
-      const timer = setTimeout(async () => {
-        const data = await getSickByName(userInput);
-        if (!data?.length) {
-          setSickList([]);
-        } else {
-          setSickList(data);
-        }
-      }, 500);
-
-      return () => clearTimeout(timer);
-    }
-  }, [userInput]);
-
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setUserInput(e.target.value);
-  };
+  const { userInput, handleInputChange } = useUserInput();
+  const debouncedInput = useDebounce(userInput, 500);
+  const { sickList, isLoading, error } = useSearchSick(debouncedInput);
 
   return (
     <Wrap>
       <Title>국내 임상시험 검색창</Title>
-      <Search userInput={userInput} sickList={sickList} handleInputChange={handleInputChange} />
+      <Search
+        userInput={userInput}
+        sickList={sickList}
+        handleInputChange={handleInputChange}
+        isLoading={isLoading}
+        error={error}
+      />
     </Wrap>
   );
 }

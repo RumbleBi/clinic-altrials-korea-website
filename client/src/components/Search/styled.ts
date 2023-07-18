@@ -43,10 +43,13 @@ const SubTitle = styled.div`
   font-weight: bold;
   margin-bottom: 20px;
 `;
-
-const HighlightedText = styled.span`
-  font-weight: bold;
-  color: skyblue;
+const ErrorMessage = styled.div`
+  font-size: 20px;
+  margin-top: 50px;
 `;
-
-export { Input, SearchWrap, ResultWrap, Result, NoResult, SubTitle, HighlightedText };
+const LoadingMessage = styled.div`
+  font-weight: bold;
+  margin: 0px 20px;
+  color: blue;
+`;
+export { Input, SearchWrap, ResultWrap, Result, NoResult, SubTitle, ErrorMessage, LoadingMessage };
