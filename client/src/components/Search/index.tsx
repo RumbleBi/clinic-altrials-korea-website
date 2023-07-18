@@ -27,9 +27,8 @@ const Search = ({ userInput, sickList, handleInputChange, isLoading, error }: Se
   }
 
   return (
-    <SearchWrap>
+    <SearchWrap onKeyDown={handleKeyPress}>
       <Input
-        onKeyDown={handleKeyPress}
         type='text'
         value={userInput}
         onChange={handleInputChange}
