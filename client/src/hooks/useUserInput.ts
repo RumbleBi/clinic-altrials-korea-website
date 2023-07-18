@@ -1,4 +1,5 @@
 import { ChangeEvent, useState } from "react";
+
 import { UseUserInputReturn } from "../types/types";
 
 export const useUserInput = (initialValue: string = ""): UseUserInputReturn => {

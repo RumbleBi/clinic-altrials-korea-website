@@ -8,12 +8,10 @@ const getFromCache = (url: string): SickList[] | null => {
   const cacheEntry = cache.get(url);
 
   if (!cacheEntry) {
-    console.info(`Cache miss for URL ${url}`);
     return null;
   }
 
   if (Date.now() > cacheEntry.expireAt) {
-    console.info(`Cache expired for URL ${url}`);
     cache.delete(url);
     return null;
   }
@@ -22,7 +20,6 @@ const getFromCache = (url: string): SickList[] | null => {
 };
 
 const saveToCache = (url: string, data: SickList[]): void => {
-  console.info(`Saving to cache for URL ${url}`);
   cache.set(url, {
     data,
     expireAt: Date.now() + expireTime,
@@ -47,6 +44,7 @@ export const api = {
       return cacheData;
     }
 
+    console.info("API calling");
     const res: AxiosResponse = await instance.get(url, queryString);
 
     saveToCache(fullUrl, res.data);

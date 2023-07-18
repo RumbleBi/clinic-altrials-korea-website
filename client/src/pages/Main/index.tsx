@@ -1,9 +1,10 @@
 import Search from "../../components/Search";
 
-import { Wrap, Title } from "./styled";
 import { useDebounce } from "../../hooks/useDebounce";
 import { useSearchSick } from "../../hooks/useSearchSick";
 import { useUserInput } from "../../hooks/useUserInput";
+
+import { Wrap, Title } from "./styled";
 
 export default function MainPage() {
   const { userInput, handleInputChange } = useUserInput();

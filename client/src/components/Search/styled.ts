@@ -1,5 +1,9 @@
 import { styled } from "styled-components";
 
+interface FocusStyleProps {
+  $focusIdx: number;
+  $idx: number;
+}
 const SearchWrap = styled.div`
   position: relative;
   margin-top: 50px;
@@ -32,10 +36,16 @@ const ResultWrap = styled.div`
   padding: 20px;
   max-height: 400px;
   overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none;
 `;
-const Result = styled.div`
+
+const Result = styled.div<FocusStyleProps>`
   margin-bottom: 20px;
   cursor: pointer;
+  text-decoration: ${({ $focusIdx, $idx }) => ($focusIdx === $idx ? "underline" : "none")};
 `;
 const NoResult = styled.div``;
 

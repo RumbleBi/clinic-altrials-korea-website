@@ -1,4 +1,9 @@
+import { useEffect } from "react";
+
 import { SearchProps } from "../../types/types";
+import { highlightText } from "../../utils/highlightText";
+import { useKeyboardSelect } from "../../hooks/useKeyboardSelect";
+
 import {
   Input,
   SearchWrap,
@@ -10,8 +15,13 @@ import {
   LoadingMessage,
 } from "./styled";
 
-import { highlightText } from "../../utils/highlightText";
 const Search = ({ userInput, sickList, handleInputChange, isLoading, error }: SearchProps) => {
+  const { focusIdx, setFocusIdx, handleKeyPress, setItemRef } = useKeyboardSelect(sickList.length);
+
+  useEffect(() => {
+    setFocusIdx(0);
+  }, [setFocusIdx]);
+
   if (error) {
     return <ErrorMessage>통신에 에러가 발생하였습니다. 나중에 다시 시도해 주세요.</ErrorMessage>;
   }
@@ -19,6 +29,7 @@ const Search = ({ userInput, sickList, handleInputChange, isLoading, error }: Se
   return (
     <SearchWrap>
       <Input
+        onKeyDown={handleKeyPress}
         type='text'
         value={userInput}
         onChange={handleInputChange}
@@ -30,8 +41,15 @@ const Search = ({ userInput, sickList, handleInputChange, isLoading, error }: Se
           {sickList.length ? (
             <>
               <SubTitle>추천 검색어</SubTitle>
-              {sickList.map((el) => (
-                <Result key={el.sickCd}>{highlightText(el.sickNm, userInput)}</Result>
+              {sickList.map((el, idx) => (
+                <Result
+                  $idx={idx}
+                  $focusIdx={focusIdx}
+                  key={el.sickCd}
+                  ref={(element) => setItemRef(element, idx)}
+                >
+                  {highlightText(el.sickNm, userInput)}
+                </Result>
               ))}
             </>
           ) : (
