@@ -20,7 +20,7 @@ const Search = ({ userInput, sickList, handleInputChange, isLoading, error }: Se
 
   useEffect(() => {
     setFocusIdx(0);
-  }, [setFocusIdx]);
+  }, [setFocusIdx, userInput]);
 
   if (error) {
     return <ErrorMessage>통신에 에러가 발생하였습니다. 나중에 다시 시도해 주세요.</ErrorMessage>;

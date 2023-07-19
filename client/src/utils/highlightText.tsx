@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const highlightText = (text: string, match: string) => {
   const parts = text.split(new RegExp(`(${match})`, "gi"));
-  console.log(parts);
+
   return (
     <>
       {parts.map((part, partIdx) =>
