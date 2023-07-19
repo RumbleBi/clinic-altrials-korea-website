@@ -2,21 +2,18 @@ import { useEffect, useState } from "react";
 
 import { SickList, UseSearchSickReturn } from "../types/types";
 import { getSickByName } from "../api/getSicks";
-import { useDebounce } from "./useDebounce";
 
 export const useSearchSick = (userInput: string): UseSearchSickReturn => {
-  const debouncedInput = useDebounce(userInput, 500);
-
   const [sickList, setSickList] = useState<SickList[] | []>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (debouncedInput.length >= 1) {
+    if (userInput.length >= 1) {
       setIsLoading(true);
       const fetchSearchSickData = async () => {
         try {
-          const data = await getSickByName(debouncedInput);
+          const data = await getSickByName(userInput);
 
           if (!data?.length) {
             setSickList([]);
@@ -36,7 +33,7 @@ export const useSearchSick = (userInput: string): UseSearchSickReturn => {
     } else {
       setSickList([]);
     }
-  }, [debouncedInput]);
+  }, [userInput]);
 
   return { sickList, isLoading, error };
 };
