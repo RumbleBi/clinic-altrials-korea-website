@@ -114,10 +114,6 @@ $ npm start
 
 ![로컬캐시](https://github.com/RumbleBi/clinic-altrials-korea-website/assets/85114315/e1cbe549-8795-4412-8874-2ba8057a0966)
 
-- Map을 사용하여 API 호출별 URL을 key, API 호출 URL의 응답값을 value로 지정하여 여러개의 검색 결과 데이터를 캐싱할 수 있도록 만들었습니다.
-
--
-
 ```ts
 // api/config.ts
 
@@ -212,7 +208,7 @@ export const useDebounce = (value: string, delay: number) => {
 };
 ```
 
-```ts
+```tsx
 // pages/Main/index.tsx
 
 import Search from "../../components/Search";
